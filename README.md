@@ -1,5 +1,5 @@
 # Flutter Udemy course repo
-This repo contains all my code for the [udemy flutter course](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/)
+This repo contains all my code for the [flutter udemy course](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/)
 
 ## Prerequisites
 
