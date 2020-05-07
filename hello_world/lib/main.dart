@@ -4,7 +4,29 @@ void main(){
 	runApp(App());
 }
 
-class App extends StatelessWidget {
+
+class App extends StatefulWidget {
+	@override
+	State<StatefulWidget> createState(){
+		return AppState();
+	}
+}
+class AppState extends State<App>{
+	List<String> questions=[
+		"What is the tallest man made building?",
+		"What is the capital of Brazil?",
+		"Which is heavier, a Kg of steel or a Kg of feathers?"
+	];
+	int questionIndex=0;
+
+	void answerCallback(){
+		setState((){
+			if(questionIndex+1<questions.length){
+				questionIndex++;
+			}
+		});
+		print(questionIndex);
+	}
 	@override
 	Widget build(BuildContext ctx){
 		return MaterialApp(
@@ -14,9 +36,15 @@ class App extends StatelessWidget {
 				),
 				body:Column(children:
 					<Widget>[
-						Text("question 1"),
-						RaisedButton(child:Text("Answer 1")),
-						RaisedButton(child:Text("Answer 2"))
+						Text(questions[questionIndex]),
+						RaisedButton(
+							child:Text("Answer 1"),
+							onPressed:answerCallback
+						),
+						RaisedButton(
+							child:Text("Answer 2"),
+							onPressed:answerCallback
+						)
 						
 					]
 				)
