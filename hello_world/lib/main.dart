@@ -31,11 +31,11 @@ class _AppState extends State<App>{
 			"Rio de Janeiro"
 		],
 		[
-			"Steel",
-			"Feathers",
-			"Water",
-			"Lead",
-			"Titanium"
+			"Steel?",
+			"Feathers?",
+			"Water?",
+			"Lead?",
+			"Titanium?"
 		]
 	];
 	int _questionIndex=0;
