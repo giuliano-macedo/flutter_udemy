@@ -1,31 +1,52 @@
 import "package:flutter/material.dart";
+import "./answers.dart";
 
 void main(){
 	runApp(App());
 }
 
-
 class App extends StatefulWidget {
 	@override
 	State<StatefulWidget> createState(){
-		return AppState();
+		return _AppState();
 	}
 }
-class AppState extends State<App>{
-	List<String> questions=[
+class _AppState extends State<App>{
+	List<String> _questions=[
 		"What is the tallest man made building?",
 		"What is the capital of Brazil?",
-		"Which is heavier, a Kg of steel or a Kg of feathers?"
+		"Which is heavier, a Kg of"
 	];
-	int questionIndex=0;
+	List<List<String>> _answers=[
+		[
+			"Empire State Building (USA)",
+			"Burj Khalifa (Dubai)",
+			"Shanghai Tower (China)",
+			"Makkah Clock Tower (Saudi Arabia)"
+		],
+		[
+			"São Paulo",
+			"Peru",
+			"Brasilia",
+			"Rio de Janeiro"
+		],
+		[
+			"Steel",
+			"Feathers",
+			"Water",
+			"Lead",
+			"Titanium"
+		]
+	];
+	int _questionIndex=0;
 
 	void answerCallback(){
 		setState((){
-			if(questionIndex+1<questions.length){
-				questionIndex++;
+			if(_questionIndex+1<_questions.length){
+				_questionIndex++;
 			}
 		});
-		print(questionIndex);
+		print(_questionIndex);
 	}
 	@override
 	Widget build(BuildContext ctx){
@@ -36,16 +57,8 @@ class AppState extends State<App>{
 				),
 				body:Column(children:
 					<Widget>[
-						Text(questions[questionIndex]),
-						RaisedButton(
-							child:Text("Answer 1"),
-							onPressed:answerCallback
-						),
-						RaisedButton(
-							child:Text("Answer 2"),
-							onPressed:answerCallback
-						)
-						
+						Text(_questions[_questionIndex]),
+						Answers(_answers[_questionIndex],answerCallback)
 					]
 				)
 			)
