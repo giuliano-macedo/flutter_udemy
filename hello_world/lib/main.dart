@@ -46,7 +46,7 @@ class _AppState extends State<App>{
 				_questionIndex++;
 			}
 		});
-		print(_questionIndex);
+		print(_questionIndex); 
 	}
 	@override
 	Widget build(BuildContext ctx){
@@ -57,7 +57,17 @@ class _AppState extends State<App>{
 				),
 				body:Column(children:
 					<Widget>[
-						Text(_questions[_questionIndex]),
+						Container(
+							child:Text(
+								_questions[_questionIndex],
+								style:TextStyle(
+									fontSize:28
+								),
+								textAlign:TextAlign.center
+							),
+							width:double.infinity,
+							margin:EdgeInsets.all(10)
+						),
 						Answers(_answers[_questionIndex],answerCallback)
 					]
 				)
