@@ -12,12 +12,12 @@ class App extends StatefulWidget {
 	}
 }
 class _AppState extends State<App>{
-	List<String> _questions=[
+	final List<String> _questions=const[
 		"What is the tallest man made building?",
 		"What is the capital of Brazil?",
 		"Which is heavier, a Kg of"
 	];
-	List<List<String>> _answers=[
+	final List<List<String>> _answers=const [
 		[
 			"Empire State Building (USA)",
 			"Burj Khalifa (Dubai)",
