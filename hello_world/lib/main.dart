@@ -39,23 +39,22 @@ class _AppState extends State<App>{
 		]
 	];
 	int _questionIndex=0;
+	bool _finished=false;
 
 	void answerCallback(){
 		setState((){
-			if(_questionIndex+1<_questions.length){
+			if(_questionIndex+1<_questions.length)
 				_questionIndex++;
-			}
+			else
+				_finished=true;
 		});
 		print(_questionIndex); 
 	}
 	@override
 	Widget build(BuildContext ctx){
-		return MaterialApp(
-			home:Scaffold(
-				appBar:AppBar(
-					title:Text("Hello world Quiz App")
-				),
-				body:Column(children:
+		Widget body;
+		if(!_finished){
+			body=Column(children:
 					<Widget>[
 						Container(
 							child:Text(
@@ -70,7 +69,24 @@ class _AppState extends State<App>{
 						),
 						Answers(_answers[_questionIndex],answerCallback)
 					]
+				);
+		}
+		else{
+			body=Center(
+				child: Text(
+					"You finished it!",
+					style:TextStyle(
+						fontSize: 32
+					)
 				)
+			);
+		}
+		return MaterialApp(
+			home:Scaffold(
+				appBar:AppBar(
+					title:Text("Hello world Quiz App")
+				),
+				body:body
 			)
 		);
 	}
