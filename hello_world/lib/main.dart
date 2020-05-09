@@ -73,10 +73,11 @@ class _AppState extends State<App>{
 		}
     return Center(
       child: Text(
-          "You finished it, your score is $_score/${_questions.length}",
+          "You finished it!\nyour score is $_score/${_questions.length}",
+          textAlign: TextAlign.center,
           style:TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
           )
         )
       );
