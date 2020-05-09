@@ -61,7 +61,7 @@ class _AppState extends State<App>{
 	}
   Widget get body{
     if(!_finished){
-			return Column(children:
+			return Stack(children:
 					<Widget>[
 						Container(
 							child:Text(
@@ -72,32 +72,36 @@ class _AppState extends State<App>{
 								textAlign:TextAlign.center
 							),
 							width:double.infinity,
-							margin:EdgeInsets.all(10)
+							margin:EdgeInsets.only(top:100)
 						),
 						Answers(_answers[_questionIndex],answerCallback)
 					]
-				);
+        );
 		}
-    return Column(
-		children:<Widget>[
-			Center(
-      			child: Text(
-					"You finished it!\nyour score is $_score/${_questions.length}",
-					textAlign: TextAlign.center,
-					style:TextStyle(
-						fontSize: 32,
-						fontWeight: FontWeight.bold,
-					)
-				)
-			),
-			ButtonTheme(
-				child:
-					RaisedButton(
-						child:Text("Try again"),
-						onPressed: reset
-					)
-			)
-		]);
+    return Container(child:
+      Column(
+      children:<Widget>[
+        Text(
+            "You finished it!\nyour score is $_score/${_questions.length}",
+            textAlign: TextAlign.center,
+            style:TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            )
+        ),
+        ButtonTheme(
+          child:
+            RaisedButton(
+              child:Text("Try again"),
+              onPressed: reset
+            )
+        )
+      ],
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+      width: double.infinity,
+      );
 
     }
 	@override

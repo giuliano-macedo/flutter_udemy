@@ -28,11 +28,14 @@ class Answers extends StatelessWidget{
 				)
 			);
 		});
-		return Column(
-			children:children,
-			crossAxisAlignment: CrossAxisAlignment.center,
-			mainAxisSize: MainAxisSize.max,
-			mainAxisAlignment: MainAxisAlignment.start
-    	);
+		return Container(child:
+			Column(
+				children:children,
+				mainAxisAlignment: MainAxisAlignment.end,
+				crossAxisAlignment: CrossAxisAlignment.center,
+			),
+			width: double.infinity,
+			margin: EdgeInsets.only(bottom:30),
+		);
 	}
 }
