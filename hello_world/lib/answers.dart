@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
+import "./alternative.dart";
 
 class Answers extends StatelessWidget{
-	final List<String> questionList;
-  final VoidCallback onPressed;
-	Answers(this.questionList,this.onPressed);
+	final List<Alternative> questionList;
+  final Function handler;
+	Answers(this.questionList,this.handler);
 	
 
 	@override
@@ -13,8 +14,10 @@ class Answers extends StatelessWidget{
 			children.add(
 				ButtonTheme(
 					child:RaisedButton(
-						child:Text(question),
-						onPressed:onPressed
+						child:Text(question.data),
+						onPressed:(){
+              handler(question.isCorrect);
+            }
 					),
 					minWidth: 300,
 					textTheme: ButtonTextTheme.accent,

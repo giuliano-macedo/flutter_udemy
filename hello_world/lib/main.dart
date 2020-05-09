@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "./answers.dart";
+import "./alternative.dart";
 
 void main(){
 	runApp(App());
@@ -12,43 +13,44 @@ class App extends StatefulWidget {
 	}
 }
 class _AppState extends State<App>{
-	final List<String> _questions=const[
+	int _score=0;
+  final List<String> _questions=const[
 		"What is the tallest man made building?",
 		"What is the capital of Brazil?",
 		"Which is heavier, a Kg of"
 	];
-	final List<List<String>> _answers=const [
+	final List<List<Alternative>> _answers=[
 		[
-			"Empire State Building (USA)",
-			"Burj Khalifa (Dubai)",
-			"Shanghai Tower (China)",
-			"Makkah Clock Tower (Saudi Arabia)"
+			Alternative.incorrect("Empire State Building (USA)"),
+			Alternative.  correct("Burj Khalifa (Dubai)"),
+			Alternative.incorrect("Shanghai Tower (China)"),
+			Alternative.incorrect("Makkah Clock Tower (Saudi Arabia)"),
 		],
 		[
-			"São Paulo",
-			"Peru",
-			"Brasilia",
-			"Rio de Janeiro"
+			Alternative.incorrect("São Paulo"),
+			Alternative.incorrect("Peru"),
+			Alternative.  correct("Brasilia"),
+			Alternative.incorrect("Rio de Janeiro"),
 		],
 		[
-			"Steel?",
-			"Feathers?",
-			"Water?",
-			"Lead?",
-			"Titanium?"
+			Alternative. correct("Steel?"),
+			Alternative. correct("Feathers?"),
+			Alternative. correct("Water?"),
+			Alternative. correct("Lead?"),
+			Alternative. correct("Titanium?"),
 		]
 	];
 	int _questionIndex=0;
 	bool _finished=false;
 
-	void answerCallback(){
+	void answerCallback(bool isCorrect){
 		setState((){
 			if(_questionIndex+1<_questions.length)
 				_questionIndex++;
 			else
 				_finished=true;
-		});
-		print(_questionIndex); 
+      _score+=isCorrect?1:0;
+		}); 
 	}
 	@override
 	Widget build(BuildContext ctx){
@@ -74,7 +76,7 @@ class _AppState extends State<App>{
 		else{
 			body=Center(
 				child: Text(
-					"You finished it!",
+					"You finished it, your score is $_score/${_questions.length}",
 					style:TextStyle(
 						fontSize: 32
 					)
