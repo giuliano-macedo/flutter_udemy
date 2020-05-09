@@ -52,11 +52,9 @@ class _AppState extends State<App>{
       _score+=isCorrect?1:0;
 		}); 
 	}
-	@override
-	Widget build(BuildContext ctx){
-		Widget body;
-		if(!_finished){
-			body=Column(children:
+  Widget get body{
+    if(!_finished){
+			return Column(children:
 					<Widget>[
 						Container(
 							child:Text(
@@ -73,16 +71,18 @@ class _AppState extends State<App>{
 					]
 				);
 		}
-		else{
-			body=Center(
-				child: Text(
-					"You finished it, your score is $_score/${_questions.length}",
-					style:TextStyle(
-						fontSize: 32
-					)
-				)
-			);
-		}
+    return Center(
+      child: Text(
+          "You finished it, your score is $_score/${_questions.length}",
+          style:TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold
+          )
+        )
+      );
+    }
+	@override
+	Widget build(BuildContext ctx){
 		return MaterialApp(
 			home:Scaffold(
 				appBar:AppBar(
