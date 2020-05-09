@@ -52,6 +52,13 @@ class _AppState extends State<App>{
       _score+=isCorrect?1:0;
 		}); 
 	}
+	void reset(){
+		setState(() {
+			_finished=false;
+			_questionIndex=0;
+			_score=0;
+		});
+	}
   Widget get body{
     if(!_finished){
 			return Column(children:
@@ -71,16 +78,27 @@ class _AppState extends State<App>{
 					]
 				);
 		}
-    return Center(
-      child: Text(
-          "You finished it!\nyour score is $_score/${_questions.length}",
-          textAlign: TextAlign.center,
-          style:TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-          )
-        )
-      );
+    return Column(
+		children:<Widget>[
+			Center(
+      			child: Text(
+					"You finished it!\nyour score is $_score/${_questions.length}",
+					textAlign: TextAlign.center,
+					style:TextStyle(
+						fontSize: 32,
+						fontWeight: FontWeight.bold,
+					)
+				)
+			),
+			ButtonTheme(
+				child:
+					RaisedButton(
+						child:Text("Try again"),
+						onPressed: reset
+					)
+			)
+		]);
+
     }
 	@override
 	Widget build(BuildContext ctx){
