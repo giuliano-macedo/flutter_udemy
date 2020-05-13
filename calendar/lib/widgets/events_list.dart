@@ -1,4 +1,5 @@
 import 'package:calendar/models/calendar_event.dart';
+import 'calendar_type_data.dart';
 import 'package:flutter/material.dart';
 
 class EventsList extends StatelessWidget {
@@ -9,33 +10,18 @@ class EventsList extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		Function getEventCard=(CalendarEvent event){
-			IconData icon;
-			Color color;
-			switch (event.type) {
-				case CalendarType.notImportant:
-					icon=Icons.hourglass_full;
-					color=Theme.of(context).colorScheme.primary;
-					break;
-				case CalendarType.important:
-					icon=Icons.error;
-					color=Theme.of(context).colorScheme.secondary;
-					break;
-				case CalendarType.emergencial:
-					icon=Icons.error;
-					color=Theme.of(context).colorScheme.error;
-					break;
-			}
+			CalendarTypeData data=new CalendarTypeData(context, event.type);
 			return Container(
 				child:Card(
 					child: ListTile(
 						leading:CircleAvatar(
-							backgroundColor: color,
+							backgroundColor: data.color,
 							radius: 30,
 							child: Padding(
 								padding: EdgeInsets.all(6),
 								child: FittedBox(
 									child: Icon(
-										icon,
+										data.iconData,
 										size:40
 									),
 								),
@@ -50,7 +36,7 @@ class EventsList extends StatelessWidget {
 		};
 		
 		return Container(
-				height: 300,
+				height: 450,
 				child:ListView.builder(
 				itemBuilder: (ctx,index)=>getEventCard(events[index]),
 				itemCount:events.length,
