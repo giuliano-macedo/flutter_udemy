@@ -1,6 +1,5 @@
 import 'package:calendar/widgets/calendar_type_data.dart';
 import "package:flutter/material.dart";
-import 'package:flutter/services.dart';
 import "../models/calendar_event.dart";
 
 class EventForm extends StatefulWidget {
@@ -15,6 +14,7 @@ class _EventFormState extends State<EventForm> {
 	final _nameController = TextEditingController();
 	String _typeSelected;
 	DateTime _dateSelected;
+	bool _isDateSelected=false;
 
 	_EventFormState(this.onAdd);
 
@@ -26,61 +26,102 @@ class _EventFormState extends State<EventForm> {
 		// onAdd();
 	}
 
-	final nameFocus=new FocusNode();
-	final dropdownFocus=new FocusNode();
 	@override
 	Widget build(BuildContext context) {
-		return  Padding(
-			padding:EdgeInsets.symmetric(horizontal: 50,vertical:20),
-			child:Column(children: <Widget>[
-				TextField(
-					decoration: InputDecoration(labelText: 'Name'),
-					controller:_nameController,
-					autofocus: true,
-					textInputAction: TextInputAction.next,
-					focusNode: nameFocus,
-					onSubmitted: (_){
-						nameFocus.unfocus();
-						// focus on dropdownButton not working
-						// dropdownFocus.requestFocus();
-						FocusScope.of(context).requestFocus(dropdownFocus);
-					}
-				),
-				SizedBox(height: 15),
-				DropdownButton<String>(
-					value: _typeSelected,
-					hint: Text("Type"),
-					focusNode:dropdownFocus,
-					focusColor: Colors.blue,
-					icon: Icon(Icons.arrow_downward),
-					onChanged: (String newValue) => setState(()=>_typeSelected = newValue),
-					items: CalendarType.values
-						.map<DropdownMenuItem<String>>((CalendarType type) {
-							CalendarTypeData data=new CalendarTypeData(context, type);
-							return DropdownMenuItem<String>(
-								value: type.index.toString(),
-								child: Text(data.text)
-							);
-						})
-						.toList(),
+		Widget nameField = TextFormField(
+			decoration: InputDecoration(
+				icon:Icon(Icons.outlined_flag),
+				hintText:"Enter the event name",
+				labelText: "Name",
+			),
+			controller: _nameController,
+			onFieldSubmitted: (_){
+			},
+		);
+		Widget typeField = FormField(
+			builder: (FormFieldState<String> state){
+				return InputDecorator(
+					decoration: InputDecoration(
+						icon:Icon(Icons.palette),
+						labelText: "Type"
 					),
-					SizedBox(height: 5),
-					RaisedButton.icon(
-						icon:Icon(Icons.calendar_today),
-						label: Text("Select Date"),
+					isEmpty: _typeSelected=="",
+					child: DropdownButtonHideUnderline(
+						child:DropdownButton<String>(
+							value: _typeSelected,
+							hint: Text( "Select the Event Type" ),
+							icon: Icon(Icons.arrow_downward),
+							onChanged: (String newValue) => setState(()=>_typeSelected = newValue),
+							items: CalendarType.values
+								.map<DropdownMenuItem<String>>((CalendarType type) {
+									CalendarTypeData data=new CalendarTypeData(context, type);
+									return DropdownMenuItem<String>(
+										value: type.index.toString(),
+										child: Text(data.text)
+									);
+								}).toList(),
+						)
+					),
+				);
+			},
+		);
+		Widget dateField=FormField(
+			builder: (FormFieldState<String> state){
+			return InputDecorator(
+				decoration: InputDecoration(
+					icon:Icon(Icons.calendar_today),
+					labelText:"Date",
+				),
+				isEmpty: _isDateSelected,
+				child:FlatButton(
+						padding: EdgeInsets.zero,
+						child:Align(
+							alignment: Alignment.centerLeft,
+							child:Text(
+								_isDateSelected?"TODO":"Select event Date",
+								style:Theme.of(context).textTheme.subtitle1
+							),
+						),
+
 						onPressed: (){
 
 						},
 					),
-					SizedBox(height: 5),
-					RaisedButton.icon(
-						icon:Icon(Icons.check),
-						label:Text("Add Event"),
-						onPressed:submit
-					)
-				],
-				crossAxisAlignment: CrossAxisAlignment.start,
-			)
+				// child: DropdownButtonHideUnderline(
+				// 	child:DropdownButton<String>(
+				// 		value: _typeSelected,
+				// 		hint: Text("Select the Event Type"),
+				// 		onChanged: (String newValue) => setState(()=>_typeSelected = newValue),
+				// 		items: null,
+				// 	)
+				// ),
+				
+			);
+		});
+		Widget submitField=Row(
+			mainAxisAlignment: MainAxisAlignment.end,
+			children: <Widget>[
+				RaisedButton.icon(
+					color: Theme.of(context).primaryColor,
+					textColor: Theme.of(context).primaryColorLight,
+					icon:Icon(Icons.check),
+					label:Text("Add Event"),
+					onPressed:submit
+				)
+			]
+		);
+		return  Padding(
+			padding:EdgeInsets.symmetric(horizontal: 10,vertical:20),
+			child:Column(
+					mainAxisSize: MainAxisSize.min,
+					crossAxisAlignment: CrossAxisAlignment.center,
+					children: <Widget>[
+						nameField,
+						typeField,
+						dateField,
+						submitField
+					],
+				)
 		);
 	}
 }
