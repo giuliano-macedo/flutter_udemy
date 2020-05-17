@@ -40,17 +40,15 @@ class _HomePageState extends State<HomePage> {
     })
   ];
   BuildContext _ctx;
-  void addEvent(String name, DateTime date, CalendarType type) {
-    CalendarEvent event = new CalendarEvent(name: name, date: date, type: type);
-    setState(() => events.add(event));
-  }
 
   void startBottomModal() {
     showModalBottomSheet(
         context: _ctx,
         builder: (_) {
           return GestureDetector(
-            child: EventForm(onAdd: addEvent),
+            child: EventForm(
+                onAdd: (CalendarEvent event) =>
+                    setState(() => events.add(event))),
             onTap: () {},
             behavior: HitTestBehavior.opaque,
           );

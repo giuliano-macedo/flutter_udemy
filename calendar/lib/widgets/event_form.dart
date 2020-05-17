@@ -1,5 +1,6 @@
 import 'package:calendar/widgets/calendar_type_data.dart';
 import "package:flutter/material.dart";
+import 'package:intl/intl.dart';
 import "../models/calendar_event.dart";
 
 class EventForm extends StatefulWidget {
@@ -19,11 +20,32 @@ class _EventFormState extends State<EventForm> {
   _EventFormState(this.onAdd);
 
   void submit() {
-    print(_nameController.text);
-    print(int.parse(_typeSelected));
-    print(_dateSelected);
+    if (!_isDateSelected ||
+        _nameController.text.isEmpty ||
+        _typeSelected.isEmpty) return;
 
-    // onAdd();
+    onAdd(CalendarEvent(
+        date: _dateSelected,
+        name: _nameController.text,
+        type: CalendarType.values[int.parse(_typeSelected)]));
+
+    Navigator.of(context).pop();
+  }
+
+  void datePicker(BuildContext context) {
+    DateTime now = DateTime.now();
+    showDatePicker(
+            context: context,
+            initialDate: now,
+            firstDate: now.subtract(Duration(days: 366 * 2)),
+            lastDate: now.add(Duration(days: 366 * 2)))
+        .then((pickedDate) {
+      if (pickedDate == null) return;
+      setState(() {
+        _dateSelected = pickedDate;
+        _isDateSelected = true;
+      });
+    });
   }
 
   @override
@@ -60,30 +82,31 @@ class _EventFormState extends State<EventForm> {
         );
       },
     );
-    Widget dateField = FormField(builder: (FormFieldState<String> state) {
+    Widget dateField = FormField(builder: (FormFieldState<DateTime> state) {
       return InputDecorator(
         decoration: InputDecoration(
           icon: Icon(Icons.calendar_today),
-          labelText: "Date",
         ),
-        isEmpty: _isDateSelected,
-        child: FlatButton(
-          padding: EdgeInsets.zero,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(_isDateSelected ? "TODO" : "Select event Date",
-                style: Theme.of(context).textTheme.subtitle1),
+        child: GestureDetector(
+          child: FlatButton(
+            padding: EdgeInsets.zero,
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  _isDateSelected
+                      ? DateFormat.yMd().format(_dateSelected).toString()
+                      : "Select event Date",
+                  style: _isDateSelected
+                      ? Theme.of(context).textTheme.bodyText1
+                      : Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(fontSize: 15),
+                )),
+            onPressed: () => datePicker(context),
           ),
-          onPressed: () {},
+          onTap: () => datePicker(context),
         ),
-        // child: DropdownButtonHideUnderline(
-        // 	child:DropdownButton<String>(
-        // 		value: _typeSelected,
-        // 		hint: Text("Select the Event Type"),
-        // 		onChanged: (String newValue) => setState(()=>_typeSelected = newValue),
-        // 		items: null,
-        // 	)
-        // ),
       );
     });
     Widget submitField =
