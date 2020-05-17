@@ -30,12 +30,11 @@ class EventsList extends StatelessWidget {
     };
 
     return Container(
-        height: 450,
         child: ListView.builder(
-          itemBuilder: (ctx, index) => getEventCard(events[index]),
-          itemCount: events.length,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-        ));
+      itemBuilder: (ctx, index) => getEventCard(events[index]),
+      itemCount: events.length,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+    ));
   }
 }
