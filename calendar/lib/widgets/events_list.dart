@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class EventsList extends StatelessWidget {
   final List<CalendarEvent> events;
-  EventsList({@required this.events});
+  EventsList(this.events);
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,19 @@ class EventsList extends StatelessWidget {
       ));
     };
 
-    return Container(
-        child: ListView.builder(
-      itemBuilder: (ctx, index) => getEventCard(events[index]),
-      itemCount: events.length,
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-    ));
+    return SliverFixedExtentList(
+      itemExtent: 75.0,
+      delegate: SliverChildBuilderDelegate(
+          (ctx, index) => getEventCard(events[index]),
+          childCount: events.length),
+    );
+
+    // return Container(
+    //     child: ListView.builder(
+    //   itemBuilder: (ctx, index) => getEventCard(events[index]),
+    //   itemCount: events.length,
+    //   scrollDirection: Axis.vertical,
+    //   shrinkWrap: true,
+    // ));
   }
 }

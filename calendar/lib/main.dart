@@ -62,12 +62,19 @@ class _HomePageState extends State<HomePage> {
         appBar: new AppBar(title: Text("Calendar")),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add), onPressed: startBottomModal),
-        body: Column(children: <Widget>[
-          Expanded(child: NextEventsBox()),
-          Expanded(
-            flex: 5,
-            child: EventsList(events: events),
-          )
-        ]));
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 250.0,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text('Next Events'),
+                background: NextEventsBox(),
+              ),
+            ),
+            EventsList(events),
+          ],
+        ));
   }
 }
