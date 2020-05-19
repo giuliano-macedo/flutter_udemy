@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -9,20 +11,23 @@ class NextEventsBox extends StatelessWidget {
   Widget eventCircle(BuildContext context, CalendarEvent event) {
     final DateTime now = DateTime.now();
     final int daysLeft = event.date.difference(now).inDays;
-    final int daysPassed = event.date.difference(event.dateCreated).inDays;
+    final double percent = .5; //TODO
     return Column(
       children: <Widget>[
         CircularPercentIndicator(
           radius: 75.0,
           lineWidth: 5.0,
-          percent: 0.5, //Not sure
-          center: new Text(
-            event.name,
-            textScaleFactor: 1.25,
+          percent: percent, //Not sure
+          center: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              event.name,
+              textScaleFactor: 0.9,
+            ),
           ),
           progressColor: Theme.of(context).primaryColorDark,
         ),
-        Text("$daysLeft days left")
+        Text("$daysLeft ${daysLeft == 1 ? 'day' : 'days'} left")
       ],
       mainAxisSize: MainAxisSize.min,
     );
@@ -31,19 +36,22 @@ class NextEventsBox extends StatelessWidget {
   List<CalendarEvent> getImportantEvents() {
     final ans = List<CalendarEvent>.from(events);
     ans.sort((CalendarEvent a, CalendarEvent b) => a.date.compareTo(b.date));
-    return ans.getRange(0, 4).toList();
+    return ans.getRange(0, min(4, events.length)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final importantEvents = getImportantEvents();
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(
-          4,
-          (index) =>
-              Expanded(child: eventCircle(context, importantEvents[index]))),
+    return Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List<Widget>.generate(
+            importantEvents.length,
+            (index) =>
+                Expanded(child: eventCircle(context, importantEvents[index]))),
+      ),
     );
   }
 }

@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
           slivers: <Widget>[
             SliverAppBar(
               pinned: true,
-              expandedHeight: 250.0,
+              expandedHeight: 200.0,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text('Next Events'),
