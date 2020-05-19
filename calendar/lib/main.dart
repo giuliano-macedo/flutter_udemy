@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import "./widgets/next_events_box.dart";
 import "./widgets/events_list.dart";
@@ -18,25 +20,27 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+Random rng = Random();
+
 class _HomePageState extends State<HomePage> {
   List<CalendarEvent> events = [
     CalendarEvent(
         name: "Exercise",
         type: CalendarType.notImportant,
-        date: DateTime.now().add(new Duration(days: 2))),
+        date: DateTime.now().add(Duration(days: 1 + rng.nextInt(29)))),
     CalendarEvent(
         name: "Do homework",
         type: CalendarType.important,
-        date: DateTime.now().add(new Duration(days: 2))),
+        date: DateTime.now().add(Duration(days: 1 + rng.nextInt(29)))),
     CalendarEvent(
         name: "Clean stuff",
         type: CalendarType.emergencial,
-        date: DateTime.now().add(new Duration(days: 2))),
+        date: DateTime.now().add(Duration(days: 1 + rng.nextInt(29)))),
     ...List<CalendarEvent>.generate(12, (index) {
       return CalendarEvent(
           name: "Event ${index + 1}",
           type: CalendarType.notImportant,
-          date: DateTime.now().add(new Duration(days: 30)));
+          date: DateTime.now().add(Duration(days: 1 + rng.nextInt(29))));
     })
   ];
   BuildContext _ctx;
@@ -59,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     _ctx = context;
     return Scaffold(
-        appBar: new AppBar(title: Text("Calendar")),
+        appBar: AppBar(title: Text("Calendar")),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add), onPressed: startBottomModal),
         body: CustomScrollView(
@@ -70,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text('Next Events'),
-                background: NextEventsBox(),
+                background: NextEventsBox(events),
               ),
             ),
             EventsList(events),

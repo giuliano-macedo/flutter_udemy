@@ -37,7 +37,7 @@ class _EventFormState extends State<EventForm> {
     showDatePicker(
             context: context,
             initialDate: now,
-            firstDate: now.subtract(Duration(days: 366 * 2)),
+            firstDate: now,
             lastDate: now.add(Duration(days: 366 * 2)))
         .then((pickedDate) {
       if (pickedDate == null) return;
